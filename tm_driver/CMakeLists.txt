@@ -18,7 +18,6 @@ endif()
 # Please refer to https://moveit.ros.org/install-moveit2/source
 # If the MoveIt2 module is not ready for installation, or the user wants to close the relative MoveIt2 module, the user can modify the "true" of moveit2_lib_auto_judge to "false" to compile. 
 #set(moveit2_lib_auto_judge false)
-set(moveit2_lib_auto_judge true)
 
 # If the user enable this tm_driver_message_print to print debug messages, more information will be displayed "1 package had stderr output: tm_driver" on the screen. 
 #set(tm_driver_message_print true)  
@@ -31,6 +30,8 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tm_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+
 set(moveit2_lib_auto_judge true)
 if (moveit2_lib_auto_judge)
   find_package(moveit_ros_planning_interface QUIET)
@@ -63,8 +64,10 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-include_directories(include
+include_directories(
+  include
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${tf2_geometry_msgs_INCLUDE_DIRS}
 )
 
 if (moveit2_lib_auto_judge) 
@@ -95,6 +98,9 @@ if (moveit2_lib_auto_judge)
       trajectory_msgs
       control_msgs
       rclcpp_action
+      tf2
+      tf2_ros
+      tf2_geometry_msgs
     )
   else()
     add_executable(tm_driver
@@ -118,6 +124,9 @@ if (moveit2_lib_auto_judge)
       std_msgs
       sensor_msgs
       tm_msgs
+      tf2
+      tf2_ros
+      tf2_geometry_msgs
     )
   endif (moveit_ros_planning_interface_FOUND)
 else()
@@ -142,6 +151,9 @@ else()
     std_msgs
     sensor_msgs
     tm_msgs
+    tf2
+    tf2_ros
+    tf2_geometry_msgs
   )
 endif()
   

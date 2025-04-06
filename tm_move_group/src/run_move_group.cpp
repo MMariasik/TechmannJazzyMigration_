@@ -17,6 +17,8 @@
 #include <moveit_msgs/msg/collision_object.hpp>
 
 #include <moveit/macros/console_colors.h>
+
+#include<moveit/utils/moveit_error_code.hpp>
 // https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html
 
 void prompt(const std::string& message)
@@ -76,7 +78,7 @@ int main(int argc, char** argv)
   // to actually move the robot.
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
-  bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  bool success = (move_group.plan(my_plan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
 
   RCLCPP_INFO(LOGGER, "Plan 1 (pose goal) %s", success ? "SUCCEEDED" : "FAILED");
 
@@ -98,7 +100,7 @@ int main(int argc, char** argv)
   move_group.setMaxVelocityScalingFactor(0.05);
   move_group.setMaxAccelerationScalingFactor(0.05);
 
-  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  success = (move_group.plan(my_plan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
   RCLCPP_INFO(LOGGER, "Plan 2 (joint space goal) %s", success ? "SUCCEEDED" : "FAILED");
 
   prompt("Press 'Enter' to continue the demo");
@@ -131,7 +133,7 @@ int main(int argc, char** argv)
   // Lets increase the planning time from the default 5 seconds to be sure the planner has enough time to succeed.
   move_group.setPlanningTime(10.0);
 
-  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  success = (move_group.plan(my_plan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
   RCLCPP_INFO(LOGGER, "Plan 3 (constraints) %s", success ? "SUCCEEDED" : "FAILED");
 
   prompt("Press 'Enter' to continue the demo");
