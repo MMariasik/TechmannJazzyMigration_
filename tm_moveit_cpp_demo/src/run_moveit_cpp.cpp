@@ -65,8 +65,11 @@ public:
   {
     RCLCPP_INFO(LOGGER, "Initialize MoveItCpp");
     moveit_cpp_ = std::make_shared<moveit_cpp::MoveItCpp>(node_);
-    moveit_cpp_->getPlanningSceneMonitor()->providePlanningSceneService();  // let RViz display query PlanningScene
-    moveit_cpp_->getPlanningSceneMonitor()->setPlanningScenePublishingFrequency(100);
+    auto planning_scene_monitor = std::const_pointer_cast<planning_scene_monitor::PlanningSceneMonitor>(
+      moveit_cpp_->getPlanningSceneMonitor());
+  
+    planning_scene_monitor->providePlanningSceneService();
+    planning_scene_monitor->setPlanningScenePublishingFrequency(100);
 
     RCLCPP_INFO(LOGGER, "Initialize PlanningComponent");
     moveit_cpp::PlanningComponent arm("tmr_arm", moveit_cpp_);
@@ -94,7 +97,11 @@ public:
 
     // Add object to planning scene
     {  // Lock PlanningScene
-      planning_scene_monitor::LockedPlanningSceneRW scene(moveit_cpp_->getPlanningSceneMonitor());
+      auto non_const_psm = std::const_pointer_cast<planning_scene_monitor::PlanningSceneMonitor>(
+        moveit_cpp_->getPlanningSceneMonitor());
+    
+      planning_scene_monitor::LockedPlanningSceneRW scene(non_const_psm);
+    
       scene->processCollisionObjectMsg(collision_object);
     }  // Unlock PlanningScene
 
@@ -108,7 +115,7 @@ public:
     if (plan_solution)
     {
       RCLCPP_INFO(LOGGER, "arm.execute()");
-      arm.execute();
+      arm.execute(true);
     }
 
     //Below, we simply use a long delay to wait for the previous motion to complete.

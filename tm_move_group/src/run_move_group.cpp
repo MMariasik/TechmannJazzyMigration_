@@ -7,8 +7,8 @@
  *  "https://github.com/ros-planning/moveit2/blob/main/LICENSE.txt"
  *********************************************************************/
 
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <moveit_msgs/msg/display_trajectory.hpp>
@@ -16,9 +16,10 @@
 #include <moveit_msgs/msg/attached_collision_object.hpp>
 #include <moveit_msgs/msg/collision_object.hpp>
 
-#include <moveit/macros/console_colors.h>
+#include <moveit/macros/console_colors.hpp>
 
 #include<moveit/utils/moveit_error_code.hpp>
+
 // https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html
 
 void prompt(const std::string& message)
