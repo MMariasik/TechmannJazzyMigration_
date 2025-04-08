@@ -50,6 +50,7 @@
 #include <moveit_msgs/msg/display_robot_state.hpp>
 #include <trajectory_msgs/msg/joint_trajectory.hpp>
 
+
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("moveit_cpp_demo");
 
 class MoveItCppDemo
@@ -115,7 +116,8 @@ public:
     if (plan_solution)
     {
       RCLCPP_INFO(LOGGER, "arm.execute()");
-      arm.execute(true);
+      moveit_cpp_->execute(plan_solution.trajectory);
+      // arm.execute(true); // deprecated version, but its more like an original solution
     }
 
     //Below, we simply use a long delay to wait for the previous motion to complete.

@@ -164,9 +164,10 @@ int main(int argc, char** argv)
   // Warning - disabling the jump threshold while operating real hardware can cause
   // large unpredictable motions of redundant joints and could be a safety issue
   moveit_msgs::msg::RobotTrajectory trajectory;
-  const double jump_threshold = 0.0;
+  //const double jump_threshold = 0.0;
   const double eef_step = 0.01;
-  double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+  double fraction = move_group.computeCartesianPath(
+    waypoints, eef_step, trajectory);
   RCLCPP_INFO(LOGGER, "Visualizing plan (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
   prompt("Press 'Enter' to move to target_pose");
